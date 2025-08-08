@@ -27,7 +27,7 @@ import { ProjectFile } from '@/types/project';
 
 const AIBuilder = () => {
   const { user } = useSupabase();
-  const { createProject } = useProject();
+  const { createProject, createProjectWithFiles } = useProject();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   
@@ -261,14 +261,33 @@ const AIBuilder = () => {
     }
 
     try {
-      createProject("AI Generated Project", 'AI Generated Project', files.length > 1 ? 'multiple' : 'single');
-      toast.success('Project saved successfully!');
+      const type = files.length > 1 ? 'multiple' : 'single';
+      const name = projectName?.trim() || 'AI Generated Project';
+
+      // Create a project with the current files
+      const projectId = await createProjectWithFiles(
+        name,
+        'AI Generated via AI Builder',
+        type,
+        files
+      );
+
+      // Also store a lightweight copy for the AI Projects tab (local only)
+      const existing = JSON.parse(localStorage.getItem('ai_projects') || '[]');
+      const aiProject = {
+        id: projectId,
+        name,
+        createdAt: new Date().toISOString(),
+        files: files.map(f => ({ id: f.id, name: f.name, type: f.type, content: f.content }))
+      };
+      localStorage.setItem('ai_projects', JSON.stringify([aiProject, ...existing]));
+
+      toast.success('Project saved! Find it under Dashboard → AI Projects');
     } catch (error) {
       console.error('Error saving project:', error);
       toast.error('Failed to save project');
     }
   };
-
   const updateFileContent = (content: string) => {
     setCurrentFile({ ...currentFile, content });
     // Update the files array

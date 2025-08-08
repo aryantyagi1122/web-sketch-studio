@@ -12,6 +12,12 @@ interface ProjectContextType {
   currentFile: ProjectFile | null;
   setCurrentFile: (file: ProjectFile | null) => void;
   createProject: (name: string, description: string, type: ProjectType) => void;
+  createProjectWithFiles: (
+    name: string,
+    description: string,
+    type: ProjectType,
+    files: ProjectFile[]
+  ) => Promise<string>;
   saveProject: () => void;
   updateFile: (fileId: string, content: string) => void;
   addFile: (name: string, type: FileType) => void;
@@ -254,21 +260,66 @@ export const ProjectProvider: React.FC<{ children: React.ReactNode }> = ({ child
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       isPublic: false,
-      isPinned: false
+      isPinned: false,
+      userEmail: user?.email || undefined,
     };
 
     setProjects([...projects, newProject]);
     setCurrentProject(newProject);
     setCurrentFile(newProject.files[0]);
     toast.success('Project created successfully!');
-    
     localStorage.setItem('currentProjectId', newProject.id);
 
     if (user) {
-      saveProjectToSupabase(newProject);
+      // fire and forget
+      saveProjectToSupabase(newProject).catch((e) => console.error('Save project error:', e));
+    } else {
+      localStorage.setItem('web-sketch-projects', JSON.stringify([...projects, newProject]));
     }
   };
 
+  const createProjectWithFiles = async (
+    name: string,
+    description: string,
+    type: ProjectType,
+    filesParam: ProjectFile[]
+  ): Promise<string> => {
+    const projectId = uuidv4();
+    const now = new Date().toISOString();
+    const newProject: Project = {
+      id: projectId,
+      name,
+      description,
+      files: [...filesParam],
+      type,
+      createdAt: now,
+      updatedAt: now,
+      isPublic: false,
+      isPinned: false,
+      userEmail: user?.email || undefined,
+    };
+
+    const updated = [...projects, newProject];
+    setProjects(updated);
+    setCurrentProject(newProject);
+    setCurrentFile(newProject.files[0]);
+    localStorage.setItem('currentProjectId', newProject.id);
+
+    if (user) {
+      try {
+        await saveProjectToSupabase(newProject);
+      } catch (e) {
+        console.error('Error saving project to Supabase:', e);
+        // Fallback local persistence so the project isn't lost
+        localStorage.setItem('web-sketch-projects', JSON.stringify(updated));
+      }
+    } else {
+      localStorage.setItem('web-sketch-projects', JSON.stringify(updated));
+    }
+
+    toast.success('Project created successfully!');
+    return projectId;
+  };
   const saveProject = async () => {
     if (currentProject) {
       const updatedProject = {
@@ -640,6 +691,7 @@ export const ProjectProvider: React.FC<{ children: React.ReactNode }> = ({ child
     currentFile,
     setCurrentFile,
     createProject,
+    createProjectWithFiles,
     saveProject,
     updateFile,
     addFile,

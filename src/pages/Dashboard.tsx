@@ -6,17 +6,19 @@ import ProjectList from '@/components/ProjectList';
 import PinnedProjects from '@/components/PinnedProjects';
 import TeamProjects from '@/components/TeamProjects';
 import CommunityProjects from '@/components/CommunityProjects';
+import AIProjectsTab from '@/components/AIProjectsTab';
 import Layout from '@/components/Layout';
 import SEOHead from '@/components/SEOHead';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileCode, Files, Star, Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { FileCode, Files, Star, Search, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 
 const TAB_LIST = [
   { value: "my-projects", label: "My Projects", icon: FileCode },
   { value: "pinned", label: "Pinned", icon: Star },
   { value: "team-projects", label: "Team Projects", icon: Files },
   { value: "community", label: "Community", icon: Search },
+  { value: "ai-projects", label: "AI Projects", icon: Sparkles },
 ];
 
 const Dashboard = () => {
@@ -183,6 +185,10 @@ const Dashboard = () => {
 
                 <TabsContent value="community" className="mt-0">
                   <CommunityProjects />
+                </TabsContent>
+
+                <TabsContent value="ai-projects" className="mt-0">
+                  <AIProjectsTab />
                 </TabsContent>
               </div>
             </Tabs>
