@@ -1,0 +1,13 @@
+
+# Netlify redirects file
+/*    /index.html   200
+
+# Handle SPA routing
+/editor/*   /index.html   200
+/preview/*  /index.html   200
+/auth       /index.html   200
+/settings   /index.html   200
+/github     /index.html   200
+/trash      /index.html   200
+/privacy-policy /index.html 200
+/terms      /index.html   200
