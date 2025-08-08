@@ -183,7 +183,7 @@ const ProjectPreview: React.FC<ProjectPreviewProps> = ({ project }) => {
   };
 
   return (
-    <div className="relative w-full h-40 bg-gradient-to-br from-gray-50 to-gray-100 rounded-md overflow-hidden">
+    <div className="relative w-full h-64 bg-gradient-to-br from-gray-50 to-gray-100 rounded-md overflow-hidden">
       {/* Loading State */}
       {!isReady && !hasError && (
         <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 z-20">
@@ -217,7 +217,7 @@ const ProjectPreview: React.FC<ProjectPreviewProps> = ({ project }) => {
           onLoad={handleIframeLoad}
           style={{
             background: 'white',
-            minHeight: '160px'
+            minHeight: '256px'
           }}
         />
       )}
