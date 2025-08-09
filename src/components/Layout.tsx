@@ -152,7 +152,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <SidebarMenu className="space-y-1">
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <NavLink to="/" className={`${getNavCls('/')} rounded-lg px-3 py-2.5 flex items-center space-x-3 group-data-[state=collapsed]:justify-center group-data-[state=collapsed]:px-2 group-data-[state=collapsed]:space-x-0`}>
+                <NavLink to="/dashboard" className={`${getNavCls('/dashboard')} rounded-lg px-3 py-2.5 flex items-center space-x-3 group-data-[state=collapsed]:justify-center group-data-[state=collapsed]:px-2 group-data-[state=collapsed]:space-x-0`}>
                         <Home size={18} className="flex-shrink-0" />
                         <span className="font-medium group-data-[state=collapsed]:hidden">Dashboard</span>
                       </NavLink>

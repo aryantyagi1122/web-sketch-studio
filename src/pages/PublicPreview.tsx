@@ -8,7 +8,11 @@ import { ExternalLink, Eye, Code, User } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 
 const PublicPreview: React.FC = () => {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug, category, projectName } = useParams<{ 
+    slug?: string; 
+    category?: string; 
+    projectName?: string; 
+  }>();
   const { getPublicProject, incrementViewCount } = useSupabase();
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);

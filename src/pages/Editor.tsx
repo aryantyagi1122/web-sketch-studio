@@ -16,7 +16,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 
 const Editor: React.FC = () => {
-  const { projectId } = useParams<{ projectId: string }>();
+  const { projectId, category, projectName } = useParams<{ 
+    projectId?: string; 
+    category?: string; 
+    projectName?: string; 
+  }>();
   const navigate = useNavigate();
   const { projects, currentProject, currentFile, saveProject, previewProject, openProject, loadProjectById } = useProject();
   const { user, incrementViewCount } = useSupabase();

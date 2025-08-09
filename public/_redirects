@@ -2,12 +2,20 @@
 # Netlify redirects file
 /*    /index.html   200
 
-# Handle SPA routing
-/editor/*   /index.html   200
-/preview/*  /index.html   200
-/auth       /index.html   200
-/settings   /index.html   200
-/github     /index.html   200
-/trash      /index.html   200
+# Handle new URL structure: /page/category/projectname
+/editor/*/*  /index.html   200
+/preview/*/* /index.html   200
+/share/*/*   /index.html   200
+
+# Handle legacy and other SPA routing
+/editor/*    /index.html   200
+/preview/*   /index.html   200
+/dashboard   /index.html   200
+/auth        /index.html   200
+/settings    /index.html   200
+/github      /index.html   200
+/trash       /index.html   200
 /privacy-policy /index.html 200
-/terms      /index.html   200
+/terms       /index.html   200
+/about       /index.html   200
+/contact     /index.html   200

@@ -41,6 +41,7 @@ function App() {
                   <Routes>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/landing" element={<Index />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/pinned" element={<Pinned />} />
                     <Route path="/team-projects" element={<TeamProjectsPage />} />
                     <Route path="/community" element={<Community />} />
@@ -49,12 +50,19 @@ function App() {
                     <Route path="/ai-projects" element={<AIProjects />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/contact" element={<Contact />} />
-                    <Route path="/editor/:projectId" element={<Editor />} />
-                    <Route path="/preview/:slug" element={<PublicPreview />} />
                     <Route path="/auth" element={<Auth />} />
                     <Route path="/settings" element={<Settings />} />
                     <Route path="/trash" element={<Trash />} />
                     <Route path="/github" element={<GitHub />} />
+                    
+                    {/* New URL structure: /page/category/projectname */}
+                    <Route path="/editor/:category/:projectName" element={<Editor />} />
+                    <Route path="/preview/:category/:projectName" element={<PublicPreview />} />
+                    <Route path="/share/:category/:projectName" element={<PublicPreview />} />
+                    
+                    {/* Legacy routes for backward compatibility */}
+                    <Route path="/editor/:projectId" element={<Editor />} />
+                    <Route path="/preview/:slug" element={<PublicPreview />} />
                     
                     <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                     <Route path="/terms" element={<Terms />} />
